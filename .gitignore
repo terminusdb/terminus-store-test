@@ -1,0 +1,11 @@
+*~
+*.so
+Cargo.lock
+**/*.rs.bk
+rust/target/
+\#*\#
+buildenv.sh
+settings.db
+prolog/*.csv
+prolog/settings.db
+
