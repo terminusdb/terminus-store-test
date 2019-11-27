@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.com/terminusdb/terminus_store_test.svg?branch=master)](https://travis-ci.com/terminusdb/terminus_store_test)
 
-Prolog bindings for the [terminus-store](https://github.com/terminusdb/terminus-store/) Rust library.
-
 ## Requirements
 
 * cargo
