@@ -9,11 +9,14 @@
  * ?-go.
  * ==
  *
+ *
  */
 
 :- use_module(library(optparse)).
 :- use_module(test_data).
 :- use_module(do_tests).
+
+ok_version(80003).
 
 %!  go is det
 %
@@ -21,11 +24,12 @@
 %   recording data.
 %
 go :-
-    version(V),
-    (   V = 80003
-    ;   throw(error(domain_error(800003, V),
-                    context(run_test:go/0,
-                            'You must be using SWI-Prolog 8.0.3')))
+    current_prolog_flag(version, V),
+    (   ok_version(V)
+    ;   ok_version(OK),
+        format(atom(Msg), 'You must be using SWI-Prolog ~w', [OK]),
+        throw(error(domain_error(OK, V),
+                    context(run_test:go/0, Msg)))
     ),
     opt_spec(OptsSpec),
     opt_arguments(OptsSpec, Opts, _PositionalArgs),
