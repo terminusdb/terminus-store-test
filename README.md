@@ -16,17 +16,22 @@
 ?- pack_install(terminus_store_prolog).
 ```
 
+You will need to make the directory /tmp/demo if it doesn't exist
+
 ## Compiling and running
 
 ```
 cd terminus_store_test/prolog
-swipl run_test.pl -- -n 300
+swipl run_test.pl -- -n 1
+?- debug(test(_)).
+?- go.
 ```
 
-See the built in help
+The run should be appended to the file `prolog/loaddata.csv`.
 
+See the built in help for options.
 
 ```
 cd terminus_store_test/prolog
-swipl run_test.pl -- --help
+swipl run_test.pl -g "go" -- --help
 ```
