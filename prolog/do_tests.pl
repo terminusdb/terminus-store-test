@@ -45,6 +45,7 @@ test_prep :-
 %
 do_a_test :-
     debug(test(do_a_test), 'start test', []),
+    % this test can't be omitted cause it inits the db
     open_directory_store('/tmp/demo', Store),
     uuid(UUID),
     atom_concat(mygraph, UUID, GraphName),
@@ -58,12 +59,29 @@ do_a_test :-
     triple(Layer, cow, loves, node(duck)),
     triple(Layer, duck, hates, node(cow)),
     triple(Layer, cow, says, value(moo)),
-    debug(test(do_a_test), 'start one_big_layer', []),
-    one_big_union_er_layer(Graph),
-    debug(test(do_a_test), 'start zillions_o_layers', []),
-    zillions_o_layers(Graph),
-
+    opt_test(one_big_union_er_layer(Graph)),
+    opt_test(zillions_o_layers(Graph)),
     debug(test(do_a_test), 'end of test', []).
+
+
+:- meta_predicate opt_test(0).
+
+%!  opt_test(+Goal:callable) is det
+%
+%   if this section is not omitted by the cmd line opts,
+%   report in debug and do
+%
+opt_test(Goal) :-
+    b_getval(cmd_line_opts, Opts),
+    strip_module(Goal, Module, RawGoal),
+    RawGoal =.. [Functor | _],
+    (   memberchk(omit(Functor), Opts)
+    ->
+        debug(test(do_a_test), '~w:~w skipped', [Module, Functor])
+    ;
+        debug(test(do_a_test), 'starting ~w:~w', [Module, Functor]),
+        call(Goal)
+    ).
 
 
 :- meta_predicate  between_map(+, +, 1).

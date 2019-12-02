@@ -35,3 +35,13 @@ See the built in help for options.
 cd terminus_store_test/prolog
 swipl run_test.pl -g "go" -- --help
 ```
+Currently it's
+
+```
+--settings  -s  atom=settings.db          location of settings file
+--count     -n  integer=-1                number of iterations to run (default -1, forever)
+--csv           atom=loaddata.csv         path to the output data file. if it exists we append
+--omit          atom=no_such_test_exists  omit a test- --omit failing_functor . May be repeated.
+--help      -h  boolean=false             print help and exit
+```
+

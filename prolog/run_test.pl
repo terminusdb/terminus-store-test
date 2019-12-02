@@ -32,7 +32,8 @@ go :-
                     context(run_test:go/0, Msg)))
     ),
     opt_spec(OptsSpec),
-    opt_arguments(OptsSpec, Opts, _PositionalArgs),
+    current_prolog_flag(argv, Args),
+    opt_parse(OptsSpec, Args, Opts, _PositionalArgs, [duplicated_flags(keepall)]),
     writeln(Opts),
     (   memberchk(help(true), Opts)
     ->  opt_help(OptsSpec, HelpStr),
@@ -109,6 +110,8 @@ opt_spec([
     [opt(datafile), type(atom), default('loaddata.csv'),
      longflags([csv]),
      help(['path to the output data file. if it exists we append'])],
+    [opt(omit), type(atom), longflags([omit]), default(no_such_test_exists),
+     help(['omit a test- --omit failing_functor . May be repeated.'])],
     [opt(help), type(boolean), default(false),
      shortflags([h]), longflags([help]),
      help(['print help and exit'])]
