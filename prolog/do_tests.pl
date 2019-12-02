@@ -62,6 +62,7 @@ do_a_test :-
     one_big_union_er_layer(Graph),
     debug(test(do_a_test), 'start zillions_o_layers', []),
     zillions_o_layers(Graph),
+
     debug(test(do_a_test), 'end of test', []).
 
 
