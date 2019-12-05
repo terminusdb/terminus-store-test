@@ -8,4 +8,6 @@ buildenv.sh
 settings.db
 prolog/*.csv
 prolog/settings.db
+**/*.*\#
+*.*\#
 

@@ -126,24 +126,3 @@ random_triple(Builder, Base, N) :-
     atom_concat(Base, NA, Subj),
     triple(Builder, Subj, flamboglets, value(_)).
 
-collect_data([UTime,
-              StackMinFree,
-              StackLow,
-              StackFactor,
-              GlobMinFree,
-              GlobLow,
-              GlobFactor,
-              TrailMinFree,
-              TrailLow,
-              TrailFactor]) :-
-    get_time(UTime),
-    prolog_stack_property(local, min_free(StackMinFree)),
-    prolog_stack_property(local, low(StackLow)),
-    prolog_stack_property(local, factor(StackFactor)),
-    prolog_stack_property(global, min_free(GlobMinFree)),
-    prolog_stack_property(global, low(GlobLow)),
-    prolog_stack_property(global, factor(GlobFactor)),
-    prolog_stack_property(trail, min_free(TrailMinFree)),
-    prolog_stack_property(trail, low(TrailLow)),
-    prolog_stack_property(trail, factor(TrailFactor)).
-
