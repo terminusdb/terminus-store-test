@@ -43,9 +43,7 @@ write_csv_row(Data) :-
 
 csv_data_field_names(List) :-
     bagof(X , datum(X), Tests),
-    maplist(thename, Tests, List).
-
-thename(Dict, Dict.name).
+    maplist(get_dict(name), Tests, List).
 
 datum(datum{ name: utime, val: UTime}) :-
     get_time(UTime).
@@ -59,44 +57,4 @@ datum(datum{ name: Name, val: Val}) :-
 
 collect_data(List) :-
     bagof(X , datum(X), Tests),
-    maplist(theval, Tests, List).
-
-theval(Dict, Dict.val).
-
-/*
-csv_data_field_names(
-    [
-    utime,
-    'stack min_free',
-    'stack low',
-    'stack factor',
-    'global min_free',
-    'global low',
-    'global factor',
-    'trail min_free',
-    'trail low',
-    'trail factor'
-]).
-
-
-collect_data([UTime,
-              StackMinFree,
-              StackLow,
-              StackFactor,
-              GlobMinFree,
-              GlobLow,
-              GlobFactor,
-              TrailMinFree,
-              TrailLow,
-              TrailFactor]) :-
-    get_time(UTime),
-    prolog_stack_property(local, min_free(StackMinFree)),
-    prolog_stack_property(local, low(StackLow)),
-    prolog_stack_property(local, factor(StackFactor)),
-    prolog_stack_property(global, min_free(GlobMinFree)),
-    prolog_stack_property(global, low(GlobLow)),
-    prolog_stack_property(global, factor(GlobFactor)),
-    prolog_stack_property(trail, min_free(TrailMinFree)),
-    prolog_stack_property(trail, low(TrailLow)),
-    prolog_stack_property(trail, factor(TrailFactor)).
-*/
+    maplist(get_dict(val), Tests, List).
