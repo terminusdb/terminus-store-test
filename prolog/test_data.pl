@@ -8,6 +8,7 @@
  *
  */
 :- use_module(library(csv)).
+:- use_module(proc_data).
 
 %!  open_csv_file(+Opts:list, -OutStream:stream) is det
 %
@@ -47,13 +48,15 @@ csv_data_field_names(List) :-
 
 datum(datum{ name: utime, val: UTime}) :-
     get_time(UTime).
-
 datum(datum{ name: Name, val: Val}) :-
     member(Stack, [local, global, trail]),
     member(Goal, [min_free(Val), low(Val), factor(Val)]),
     prolog_stack_property(Stack, Goal),
     Goal =.. [Functor | _],
     atomic_list_concat([Stack, ' ', Functor], Name).
+datum(Datum) :-
+    proc_datum(Datum).
+
 
 collect_data(List) :-
     bagof(X , datum(X), Tests),
