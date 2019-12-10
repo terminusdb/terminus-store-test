@@ -112,6 +112,8 @@ opt_spec([
      help(['path to the output data file. if it exists we append'])],
     [opt(omit), type(atom), longflags([omit]), default(no_such_test_exists),
      help(['omit a test- --omit failing_functor . May be repeated.'])],
+    [opt(only), type(atom), longflags([only]),
+     help(['only run the single test named by only + cowduck. use none to run only cowduck'])],
     [opt(help), type(boolean), default(false),
      shortflags([h]), longflags([help]),
      help(['print help and exit'])]

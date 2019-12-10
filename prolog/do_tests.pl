@@ -75,19 +75,39 @@ opt_test(Goal) :-
     b_getval(cmd_line_opts, Opts),
     strip_module(Goal, Module, RawGoal),
     RawGoal =.. [Functor | _],
-    (   memberchk(omit(Functor), Opts)
-    ->
-        debug(test(do_a_test), '~w:~w skipped', [Module, Functor])
-    ;
-        debug(test(do_a_test), 'starting ~w:~w', [Module, Functor]),
-        call(Goal)
-    ).
+    ot(Module, Functor, Opts, Goal).
 
+ot(_Module, Functor, Opts, _) :-
+    memberchk(only(X), Opts),
+    ground(X),
+    X \= Functor,
+    !.
+ot(Module, Functor, Opts, Goal) :-
+    memberchk(only(X), Opts),
+    ground(X),
+    X == Functor, % caution, grounding X grounds it for everybody!
+    !,
+    debug(test(do_a_test), 'starting ~w:~w', [Module, Functor]),
+    call(Goal).
+ot(Module, Functor, Opts, Goal) :-
+    memberchk(only(X), Opts),
+    \+ ground(X),
+    \+ memberchk(omit(Functor), Opts),
+    !,
+    debug(test(do_a_test), 'starting ~w:~w', [Module, Functor]),
+    call(Goal).
+ot(Module, Functor, Opts, _Goal) :-
+    memberchk(only(X), Opts),
+    \+ ground(X),
+    memberchk(omit(Functor), Opts),
+    !,
+    debug(test(do_a_test), '~w:~w skipped', [Module, Functor]).
 
 :- meta_predicate  between_map(+, +, 1).
 
 between_map(From, To, _) :-
-    From > To.
+    From > To,
+    !.
 between_map(From, To, Goal) :-
     call(Goal, From),
     succ(From, NN),
@@ -124,5 +144,5 @@ add_random_triple(Builder, Base, N) :-
 random_triple(Builder, Base, N) :-
     atom_number(NA, N),
     atom_concat(Base, NA, Subj),
-    triple(Builder, Subj, flamboglets, value(_)).
+    once(triple(Builder, Subj, flamboglets, value(_))).
 
