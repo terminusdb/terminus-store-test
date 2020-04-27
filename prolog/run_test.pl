@@ -16,21 +16,12 @@
 :- use_module(test_data).
 :- use_module(do_tests).
 
-ok_version(80003).
-
 %!  go is det
 %
 %   Repeatedly runs the load tests
 %   recording data.
 %
 go :-
-    current_prolog_flag(version, V),
-    (   ok_version(V)
-    ;   ok_version(OK),
-        format(atom(Msg), 'You must be using SWI-Prolog ~w', [OK]),
-        throw(error(domain_error(OK, V),
-                    context(run_test:go/0, Msg)))
-    ),
     opt_spec(OptsSpec),
     current_prolog_flag(argv, Args),
     opt_parse(OptsSpec, Args, Opts, _PositionalArgs, [duplicated_flags(keepall)]),
