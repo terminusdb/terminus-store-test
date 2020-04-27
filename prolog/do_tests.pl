@@ -1,5 +1,5 @@
 :- module(do_tests, [
-              do_n_tests/1
+              do_n_tests/2
           ]).
 /** <module> Do the actual tests
  *
@@ -14,17 +14,17 @@
 %   @arg Opts command line options
 %   @arg OutStream the stream to write data to
 %
-do_n_tests(0).
-do_n_tests(-1) :-
+do_n_tests(0, _).
+do_n_tests(-1, StorageFolder) :-
     test_prep,
-    do_a_test,
+    do_a_test(StorageFolder),
     collect_data(CSV),
     write_csv_row(CSV),
     do_n_tests(-1).
-do_n_tests(N) :-
+do_n_tests(N, StorageFolder) :-
     succ(NN, N),
     test_prep,
-    do_a_test,
+    do_a_test(StorageFolder),
     collect_data(CSV),
     write_csv_row(CSV),
     do_n_tests(NN).
@@ -43,10 +43,10 @@ test_prep :-
 %
 %   do a single test cycle
 %
-do_a_test :-
+do_a_test(StorageFolder) :-
     debug(test(do_a_test), 'start test', []),
     % this test can't be omitted cause it inits the db
-    open_directory_store('/tmp/demo', Store),
+    open_directory_store(StorageFolder, Store),
     uuid(UUID),
     atom_concat(mygraph, UUID, GraphName),
     create_named_graph(Store, GraphName, Graph),

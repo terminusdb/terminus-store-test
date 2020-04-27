@@ -48,9 +48,10 @@ prolog:message(help_info(HelpStr)) -->
 %
 do_tests(Opts) :-
     memberchk(count(N), Opts),
+    memberchk(storagefolder(StorageFolder), Opts),
     setup_call_catcher_cleanup(
         setup_tests(Opts, OutStream),
-        do_n_tests(N),
+        do_n_tests(N, StorageFolder),
         Catcher,
         end_tests(Catcher, OutStream)
     ).
@@ -100,6 +101,9 @@ opt_spec([
      help(['number of iterations to run (default -1, forever)'])],
     [opt(datafile), type(atom), default('loaddata.csv'),
      longflags([csv]),
+     help(['path to the output data file. if it exists we append'])],
+    [opt(storagefolder), type(atom), default('/tmp/storage'),
+     longflags([storagefolder]),
      help(['path to the output data file. if it exists we append'])],
     [opt(omit), type(atom), longflags([omit]), default(no_such_test_exists),
      help(['omit a test- --omit failing_functor . May be repeated.'])],
