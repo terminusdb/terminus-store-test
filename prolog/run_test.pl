@@ -102,7 +102,7 @@ opt_spec([
     [opt(datafile), type(atom), default('loaddata.csv'),
      longflags([csv]),
      help(['path to the output data file. if it exists we append'])],
-    [opt(storagefolder), type(atom), default('/tmp/storage'),
+    [opt(storagefolder), type(atom), default('storage'),
      longflags([storagefolder]),
      help(['path to the output data file. if it exists we append'])],
     [opt(omit), type(atom), longflags([omit]), default(no_such_test_exists),
