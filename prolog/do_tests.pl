@@ -27,7 +27,7 @@ do_n_tests(N, StorageFolder) :-
     do_a_test(StorageFolder),
     collect_data(CSV),
     write_csv_row(CSV),
-    do_n_tests(NN).
+    do_n_tests(NN, StorageFolder).
 
 %!  test_prep is det
 %
@@ -116,15 +116,15 @@ between_map(From, To, Goal) :-
 one_big_union_er_layer(Graph) :-
     head(Graph, OldLayer),
     open_write(OldLayer, Builder),
-    between_map(1, 10_000, add_random_triple(Builder, onion)),
+    between_map(1, 1000, add_random_triple(Builder, onion)),
     nb_commit(Builder, Layer),
     nb_set_head(Graph, Layer),
-    between_map(1, 10_000, random_triple(Layer, onion)).
+    between_map(1, 1000, random_triple(Layer, onion)).
 
 zillions_o_layers(Graph) :-
-    between_map(1, 10_000, add_random_triple_layer(Graph)),
+    between_map(1, 1000, add_random_triple_layer(Graph)),
     head(Graph, Layer),
-    between_map(1, 10_000, random_triple(Layer, zillions)).
+    between_map(1, 1000, random_triple(Layer, zillions)).
 
 add_random_triple_layer(Graph, N) :-
     head(Graph, OldLayer),
