@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 
 time swipl -g go -g halt prolog/run_test.pl -- -n 1
