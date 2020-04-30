@@ -3,4 +3,4 @@ WORKDIR /app/terminus-store-test
 COPY . .
 RUN apt-get update && apt-get install time
 RUN mkdir storage
-CMD test.sh
+CMD ./test.sh
